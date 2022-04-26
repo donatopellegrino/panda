@@ -2,10 +2,6 @@
     {
         "inputs": [
             {
-                "name": "index",
-                "type": "felt"
-            },
-            {
                 "name": "value",
                 "type": "felt"
             }

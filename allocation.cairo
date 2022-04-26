@@ -19,9 +19,8 @@ func push_metric{
     syscall_ptr : felt*,
     pedersen_ptr : HashBuiltin*,
     range_check_ptr,
-}(index : felt, value : felt):
-    let (count) = metrics_len.read()
-    assert index = count
+}(value : felt):
+    let (index) = metrics_len.read()
     metric.write(index, value)
     metrics_len.write(index + 1)
     return ()
@@ -38,11 +37,13 @@ func sum_metrics{
     end
 
     let (sum_of_rest) = sum_metrics(index - 1)
-    let (value) = metric.read(0)
+    let (value) = metric.read(index)
     return (sum=value + sum_of_rest)
 end
 
 # Returns the allocation(s) based on the metrics history
+#   now just a sum but could be a more complex calculation
+#   importantly it uses all of the stored data (not possible in EVM)
 @view
 func get_allocation{
     syscall_ptr : felt*,
